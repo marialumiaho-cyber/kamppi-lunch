@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kamppi Lounas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0d0d0d;
+    --off-white: #f7f5f0;
+    --warm-grey: #e8e4dc;
+    --mid-grey: #9e9a92;
+    --dim: #c4c0b8;
+    --text: #1a1a1a;
+    --surface: #ffffff;
+    --accent: #c8602a;
+    --accent-light: #f2ede7;
+    --green: #2d7a4a;
+    --green-light: #edf7f1;
+    --red: #c0392b;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --shadow: 0 2px 12px rgba(0,0,0,0.06);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.10);
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font);
+    background: var(--off-white);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--warm-grey);
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .brand-dot {
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  .brand-name {
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--black);
+  }
+
+  .brand-name span {
+    color: var(--mid-grey);
+    font-weight: 400;
+    font-size: 13px;
+    margin-left: 6px;
+    letter-spacing: 0;
+  }
+
+  .week-pill {
+    background: var(--warm-grey);
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  /* ── DAY NAV ── */
+  .day-nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--warm-grey);
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 0 12px;
+    position: sticky;
+    top: 60px;
+    z-index: 49;
+  }
+  .day-nav::-webkit-scrollbar { display: none; }
+
+  .day-btn {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    padding: 12px 14px 10px;
+    cursor: pointer;
+    font-family: var(--font);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    transition: all 0.15s;
+    margin-bottom: -1px;
+  }
+
+  .day-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mid-grey);
+    transition: color 0.15s;
+  }
+
+  .day-num {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    transition: all 0.15s;
+  }
+
+  .day-btn.active { border-bottom-color: var(--accent); }
+  .day-btn.active .day-label { color: var(--accent); }
+  .day-btn.active .day-num { color: var(--accent); }
+
+  .day-btn.is-today .day-num {
+    background: var(--black);
+    color: white;
+  }
+  .day-btn.is-today.active .day-num {
+    background: var(--accent);
+    color: white;
+  }
+
+  /* ── MAIN ── */
+  .main {
+    padding: 20px 16px 80px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .panel-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+
+  .panel-day {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--black);
+  }
+
+  .panel-date {
+    font-size: 13px;
+    color: var(--mid-grey);
+    font-weight: 400;
+  }
+
+  .today-badge {
+    background: var(--accent);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 100px;
+  }
+
+  /* ── RESTAURANT CARDS ── */
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  @media (min-width: 640px) {
+    .cards { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (min-width: 900px) {
+    .cards { grid-template-columns: repeat(3, 1fr); }
+    .main { padding: 28px 24px 80px; }
+  }
+
+  .card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+  }
+
+  .card-head {
+    padding: 16px 18px 12px;
+    border-bottom: 1px solid var(--warm-grey);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .card-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--black);
+    letter-spacing: -0.2px;
+  }
+
+  .card-address {
+    font-size: 11px;
+    color: var(--mid-grey);
+    margin-top: 3px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .price-tag {
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 100px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .card-body {
+    padding: 14px 18px;
+    flex: 1;
+  }
+
+  .section {
+    margin-bottom: 14px;
+  }
+  .section:last-child { margin-bottom: 0; }
+
+  .section-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--warm-grey);
+  }
+
+  .item {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.55;
+    padding: 3px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .item-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    margin-top: 7px;
+  }
+
+  .item-text { flex: 1; }
+
+  .diet-tags {
+    display: inline-flex;
+    gap: 3px;
+    margin-left: 4px;
+    flex-wrap: wrap;
+    vertical-align: middle;
+  }
+
+  .dtag {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 4px;
+    letter-spacing: 0.03em;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .dtag-veg  { background: var(--green-light); color: var(--green); }
+  .dtag-diet { background: var(--warm-grey); color: var(--mid-grey); }
+
+  .card-foot {
+    padding: 10px 18px;
+    border-top: 1px solid var(--warm-grey);
+    background: #fbfaf8;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .hours {
+    font-size: 11px;
+    color: var(--mid-grey);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .open-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 0 2px var(--green-light);
+  }
+
+  .card-link {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+    transition: opacity 0.15s;
+  }
+  .card-link:hover { opacity: 0.7; }
+
+  /* ── ERROR / EMPTY STATES ── */
+  .error-card {
+    background: #fff5f5;
+    border: 1px solid #fecaca;
+    border-radius: var(--radius);
+    padding: 20px;
+    color: var(--red);
+    font-size: 13px;
+    grid-column: 1 / -1;
+  }
+
+  .no-menu {
+    font-size: 13px;
+    color: var(--mid-grey);
+    padding: 20px 0;
+    font-style: italic;
+  }
+
+  /* ── LOADING ── */
+  .loading-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    gap: 14px;
+    color: var(--mid-grey);
+    font-size: 14px;
+  }
+
+  .spinner {
+    width: 26px; height: 26px;
+    border: 2.5px solid var(--warm-grey);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.75s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 16px;
+    font-size: 11px;
+    color: var(--dim);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-dot"></div>
+    <div class="brand-name">Kamppi Lounas<span>Autotalo</span></div>
+  </div>
+  <div class="week-pill" id="weekPill">—</div>
+</header>
+
+<nav class="day-nav" id="dayNav"></nav>
+
+<div class="main" id="main">
+  <div class="loading-screen">
+    <div class="spinner"></div>
+    Haetaan viikon menuita…
+  </div>
+</div>
+
+<footer id="footer"></footer>
+
+<script>
+const DAYS_FI    = ['Su','Ma','Ti','Ke','To','Pe','La'];
+const DAYS_LONG  = ['Sunnuntai','Maanantai','Tiistai','Keskiviikko','Torstai','Perjantai','Lauantai'];
+const WEEKDAYS   = [1,2,3,4,5];
+
+// ── Date helpers ──────────────────────────────────────────────────────────────
+
+function getMondayOfWeek(d) {
+  const dt = new Date(d);
+  const day = dt.getDay();
+  dt.setDate(dt.getDate() - day + (day === 0 ? -6 : 1));
+  dt.setHours(0,0,0,0);
+  return dt;
+}
+
+function getDateForDow(dow) {
+  const mon = getMondayOfWeek(new Date());
+  const d = new Date(mon);
+  d.setDate(mon.getDate() + (dow - 1));
+  return d;
+}
+
+// ── Diet tag renderer ─────────────────────────────────────────────────────────
+
+const VEG_TAGS = ['VE','VGN','ve','veg'];
+
+function parseDietTags(str) {
+  // Extract all (X+Y) or (X) tag groups
+  const matches = [...str.matchAll(/\(([^)]+)\)/g)];
+  const clean = str.replace(/\s*\([^)]+\)/g, '').trim();
+  const tags = [];
+  matches.forEach(m => {
+    m[1].split(/[+,]/).map(t => t.trim()).forEach(t => {
+      if (t) tags.push(t.toUpperCase());
+    });
+  });
+  return { clean, tags };
+}
+
+function renderTags(tags) {
+  if (!tags.length) return '';
+  const html = tags.map(t => {
+    const isVeg = ['VE','VGN','VL'].includes(t);
+    return `<span class="dtag ${isVeg ? 'dtag-veg' : 'dtag-diet'}">${t}</span>`;
+  }).join('');
+  return `<span class="diet-tags">${html}</span>`;
+}
+
+function renderItem(text) {
+  const { clean, tags } = parseDietTags(text);
+  return `<div class="item">
+    <div class="item-dot"></div>
+    <div class="item-text">${clean}${renderTags(tags)}</div>
+  </div>`;
+}
+
+function renderSection(label, items) {
+  if (!items || !items.length) return '';
+  return `<div class="section">
+    <div class="section-label">${label}</div>
+    ${items.map(renderItem).join('')}
+  </div>`;
+}
+
+// ── Card renderer ─────────────────────────────────────────────────────────────
+
+function renderCard(r, dayKey) {
+  const menu = r.daily_menus?.[dayKey] || r.daily_menus?.[String(dayKey)];
+  const price = r.prices?.[0] || '';
+
+  const head = `
+    <div class="card-head">
+      <div>
+        <div class="card-name">${r.name}</div>
+        <div class="card-address">📍 ${r.address}</div>
+      </div>
+      ${price ? `<div class="price-tag">${price}</div>` : ''}
+    </div>`;
+
+  const foot = `
+    <div class="card-foot">
+      <div class="hours"><div class="open-dot"></div>${r.hours}</div>
+      <a href="${r.url}" target="_blank" class="card-link">Menu ↗</a>
+    </div>`;
+
+  if (r.error)
+    return `<div class="error-card">⚠ ${r.name}: ${r.error}</div>`;
+
+  const body = menu ? [
+    renderSection('Salaattipöytä', r.common_items?.length ? r.common_items : null),
+    renderSection('Keitto', menu.soups),
+    renderSection('Lämmin ruoka', menu.mains),
+    renderSection('Vegaaninen', menu.vegan),
+    renderSection('Jälkiruoka', menu.dessert),
+  ].join('') : `<div class="no-menu">Ei lounaslistaa tälle päivälle.</div>`;
+
+  return `<div class="card">${head}<div class="card-body">${body}</div>${foot}</div>`;
+}
+
+// ── Build dashboard ───────────────────────────────────────────────────────────
+
+function build(data) {
+  const todayDow = new Date().getDay();
+  const activeDay = WEEKDAYS.includes(todayDow) ? todayDow : 1;
+
+  document.getElementById('weekPill').textContent = `Vko ${data.week_label || '—'}`;
+
+  // Day nav
+  const nav = document.getElementById('dayNav');
+  nav.innerHTML = '';
+  WEEKDAYS.forEach(dow => {
+    const d = getDateForDow(dow);
+    const isToday = dow === todayDow;
+    const btn = document.createElement('button');
+    btn.className = ['day-btn', isToday && 'is-today', dow === activeDay && 'active'].filter(Boolean).join(' ');
+    btn.dataset.dow = dow;
+    btn.innerHTML = `<span class="day-label">${DAYS_FI[dow]}</span><span class="day-num">${d.getDate()}</span>`;
+    btn.addEventListener('click', () => switchDay(+btn.dataset.dow));
+    nav.appendChild(btn);
+  });
+
+  // Panels
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+  WEEKDAYS.forEach(dow => {
+    const d = getDateForDow(dow);
+    const isToday = dow === todayDow;
+    const dateStr = d.toLocaleDateString('fi-FI', { day: 'numeric', month: 'long', year: 'numeric' });
+    const panel = document.createElement('div');
+    panel.className = 'panel' + (dow === activeDay ? ' active' : '');
+    panel.id = `panel-${dow}`;
+    panel.innerHTML = `
+      <div class="panel-header">
+        ${isToday ? '<span class="today-badge">Tänään</span>' : ''}
+        <span class="panel-day">${DAYS_LONG[dow]}</span>
+        <span class="panel-date">${dateStr}</span>
+      </div>
+      <div class="cards">${(data.restaurants || []).map(r => renderCard(r, String(dow))).join('')}</div>`;
+    main.appendChild(panel);
+  });
+
+  // Footer
+  document.getElementById('footer').textContent =
+    `Päivitetty: ${data.scraped_at || '—'} · Tiedot haetaan automaattisesti joka maanantai klo 07:00`;
+}
+
+function switchDay(dow) {
+  document.querySelectorAll('.day-btn').forEach(b => b.classList.toggle('active', +b.dataset.dow === dow));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === `panel-${dow}`));
+}
+
+// ── Load ──────────────────────────────────────────────────────────────────────
+
+async function load() {
+  try {
+    const res = await fetch('menus.json?t=' + Date.now());
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    build(data);
+  } catch (err) {
+    document.getElementById('main').innerHTML = `
+      <div class="loading-screen">
+        <div style="font-size:2rem">⚠️</div>
+        <div style="text-align:center">Menuita ei voitu ladata.<br>
+        <span style="font-size:11px;color:var(--dim)">${err.message}</span></div>
+      </div>`;
+  }
+}
+
+load();
+</script>
+</body>
+</html>

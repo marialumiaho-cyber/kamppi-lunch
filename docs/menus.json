@@ -1,0 +1,77 @@
+{
+  "scraped_at": "2026-03-03",
+  "week_label": "2.3.–6.3.2026",
+  "restaurants": [
+    {
+      "id": "factory_kamppi",
+      "name": "Factory Kamppi",
+      "address": "Runeberginkatu 3, 00100 Helsinki",
+      "url": "https://factorykamppi.com/lounas/",
+      "hours": "10:30–15:00",
+      "week_label": "2.3.–6.3.2026",
+      "prices": ["Lounasbuffet 13,70 €"],
+      "common_items": [
+        "Runsas salaattipöytä",
+        "Omassa keittiössä leivottua leipää",
+        "Jälkiruoka",
+        "Kahvi / tee"
+      ],
+      "daily_menus": {
+        "1": {
+          "soups": ["Tomaatti-vuohenjuustokeitto (L+G) krutongit (VE)"],
+          "mains": [
+            "Paahdettua lohta hunajaisella soija–inkiväärikastikkeella ja seesaminsiemenillä (M+G+VS) kookosriisi (M+G)",
+            "Tex mex -uunimakkaraa (L+G) perunamuusi (L+G)",
+            "Teriyakilla maustettu kana-kasvisnuudeliwokki (VE+VS)",
+            "Tofua ja herkkusieniä tuoreella korianterilla höystetyssä tomaattisessa soija-kermakastikkeessa (VE+G+VS)"
+          ],
+          "vegan": [
+            "Teriyakilla maustettu kana-kasvisnuudeliwokki (VE+VS)",
+            "Tofua ja herkkusieniä tuoreella korianterilla höystetyssä tomaattisessa soija-kermakastikkeessa (VE+G+VS)"
+          ],
+          "dessert": ["Mansikkakermakakkupalat (L)"]
+        },
+        "2": {
+          "soups": ["Myskikurpitsasosekeitto (L+G) paahdettuja siemeniä (VE+G)"],
+          "mains": [
+            "Ylikypsää porsaanniskaa tummassa BBQ-kastikkeessa (M+G+VS) paahdetut perunat välimeren yrteillä (VE+G)",
+            "Pinaatti-feta-kanalasagne cheddarjuustolla (VL)",
+            "Kukkakaali-kikhernecurry nyhtökauralla (VE+G+VS) basmatiriisi (VE+G)"
+          ],
+          "vegan": ["Kukkakaali-kikhernecurry nyhtökauralla (VE+G+VS) basmatiriisi (VE+G)"],
+          "dessert": ["Factoryn herkullinen jäätelöbaari (L+G)"]
+        },
+        "3": {
+          "soups": ["Savuporokeitto Koskenlaskijajuustolla (L+G)"],
+          "mains": [
+            "Nepalilainen Butter Chicken paahdetuilla cashewpähkinöillä (L+G+VS) basmatiriisi (VE+G)",
+            "Tempura-paneroitua seitiä (L) avocado-ranch -dippi (L) rapeat ranskalaiset (VE+G)",
+            "Chimichurrilla maustettu värikäs kvinoa-kasvispaistos tofulla (VE+G+VS)"
+          ],
+          "vegan": ["Chimichurrilla maustettu värikäs kvinoa-kasvispaistos tofulla (VE+G+VS)"],
+          "dessert": ["Omena-marjacrumble (L) vaniljakastike (L+G)"]
+        },
+        "4": {
+          "soups": ["Hernekeitto (M+G) pilkottua sipulia (VE+G)"],
+          "mains": [
+            "Factoryn lihapullat konjakki-pippurikastikkeessa (L+G) perunamuusi (L+G)",
+            "Broilerin paistileike Provencen tapaan (M+G+VS)",
+            "MUU -vegenakkeja, kasviksia teriyakikastikkeella ja pähkinöillä (VE+G+VS) basmatiriisi (VE+G)"
+          ],
+          "vegan": ["MUU -vegenakkeja, kasviksia teriyakikastikkeella ja pähkinöillä (VE+G+VS) basmatiriisi (VE+G)"],
+          "dessert": ["Factoryn letut (L) mansikkahillo (VE+G) kermavaahto (L+G) jäätelö (L+G)"]
+        },
+        "5": {
+          "soups": ["Kermainen lohikeitto (L+G)"],
+          "mains": [
+            "Rapeaksi paistettua Kievin kanaa yrttivoi-glaseerauksella (VL+VS) chimichurri-aioli (VE+G+VS) perunamuusi (L+G)",
+            "Kebablastuja makean tulisessa paprika-tomaatti-basilikakastikkeessa (M+G+VS) basmatiriisi (VE+G) turkkilainen jogurtti (L)",
+            "Siirapilla glaseeratut juurekset Härkiksellä ja babypinaatilla (VE+G+VS)"
+          ],
+          "vegan": ["Siirapilla glaseeratut juurekset Härkiksellä ja babypinaatilla (VE+G+VS)"],
+          "dessert": ["Talon banoffee-piirakka (VL)"]
+        }
+      }
+    }
+  ]
+}
